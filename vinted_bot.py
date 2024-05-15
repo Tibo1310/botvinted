@@ -2,13 +2,17 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from models import VintedItem
+from models import VintedItem, Base
 import os
 
+# Charger l'URL de la base de données depuis les variables d'environnement
 DATABASE_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
+
+# S'assurer que les tables sont créées
+Base.metadata.create_all(engine)
 
 def fetch_vinted_items():
     url = "https://www.vinted.fr/catalog?search_text=dracaufeu+223/197"

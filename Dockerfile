@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Exposer le port sur lequel l'application Flask tourne
-EXPOSE 10000
+EXPOSE 5000
 
-# Commande pour démarrer l'application Flask
-CMD ["python", "app.py"]
+# Commande pour démarrer l'application Flask et exécuter le script de récupération
+CMD ["sh", "-c", "python vinted_bot.py && python app.py"]
