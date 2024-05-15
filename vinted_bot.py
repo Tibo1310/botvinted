@@ -25,9 +25,9 @@ def fetch_vinted_items():
     soup = BeautifulSoup(response.text, 'html.parser')
     
     items = []
-    for item in soup.find_all('div', class_='catalog-item'):
-        title_tag = item.find('h3', class_='catalog-item-title')
-        price_tag = item.find('div', class_='catalog-item-price')
+    for item in soup.find_all('div', class_='feed-grid__item'):
+        title_tag = item.find('div', class_='new-item-box__title')
+        price_tag = item.find('p', class_='web_ui__Text__text web_ui__Text__subtitle web_ui__Text__left web_ui__Text__amplified web_ui__Text__bold')
 
         if title_tag and price_tag:
             title = title_tag.text.strip()
