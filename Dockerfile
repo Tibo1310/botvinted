@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Exposer le port sur lequel l'application Flask tourne
-EXPOSE 5000
+EXPOSE 10000
 
 # Commande pour démarrer l'application Flask
 CMD ["python", "app.py"]
