@@ -2,9 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from models import VintedBot, VintedItem
+from models import VintedItem
+import os
 
-engine = create_engine('mysql://root:rootpassword@db/vinted_db')
+DATABASE_URL = os.getenv('DATABASE_URL')
+engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
 

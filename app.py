@@ -2,10 +2,12 @@ from flask import Flask, jsonify
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from models import VintedItem
+import os
 
 app = Flask(__name__)
 
-engine = create_engine('mysql://root:rootpassword@db/vinted_db')
+DATABASE_URL = os.getenv('DATABASE_URL')
+engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -15,4 +17,4 @@ def get_items():
     return jsonify([{'title': item.title, 'price': item.price} for item in items])
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
