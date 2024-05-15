@@ -4,11 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from models import VintedItem, Base
 import os
-import logging
-
-# Configurer les logs
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 # Charger l'URL de la base de données depuis les variables d'environnement
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -25,21 +20,19 @@ def fetch_vinted_items():
     soup = BeautifulSoup(response.text, 'html.parser')
     
     items = []
-    for item in soup.find_all('div', class_='feed-grid__item'):
-        title_tag = item.find('div', class_='new-item-box__title')
-        price_tag = item.find('p', class_='web_ui__Text__text web_ui__Text__subtitle web_ui__Text__left web_ui__Text__amplified web_ui__Text__bold')
-
-        if title_tag and price_tag:
-            title = title_tag.text.strip()
-            price = price_tag.text.strip()
-            
+    for item in soup.find_all('div', class_='catalog-item'):
+        title_element = item.find('div', {'data-testid': lambda x: x and 'title-container' in x})
+        price_element = item.find('p', {'data-testid': lambda x: x and 'price-text' in x})
+        
+        if title_element and price_element:
+            title = title_element.get_text(strip=True)
+            price = price_element.get_text(strip=True)
             if "dracaufeu 223/197" in title.lower():
                 items.append({
                     'title': title,
                     'price': price
                 })
     
-    logger.info(f"Fetched {len(items)} items from Vinted.")
     return items
 
 def save_items_to_db(items):
@@ -50,8 +43,9 @@ def save_items_to_db(items):
         )
         session.add(vinted_item)
     session.commit()
-    logger.info(f"Saved {len(items)} items to the database.")
 
 if __name__ == "__main__":
     items = fetch_vinted_items()
+    print(f"Fetched items: {items}")
     save_items_to_db(items)
+    print("Items saved to database.")
