@@ -21,4 +21,4 @@ def get_items():
     return jsonify([{'title': item.title, 'price': item.price} for item in items])
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=10000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
