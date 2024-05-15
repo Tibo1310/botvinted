@@ -26,14 +26,18 @@ def fetch_vinted_items():
     
     items = []
     for item in soup.find_all('div', class_='catalog-item'):
-        title = item.find('h3', class_='catalog-item-title').text.strip()
-        price = item.find('div', class_='catalog-item-price').text.strip()
-        
-        if "dracaufeu 223/197" in title.lower():
-            items.append({
-                'title': title,
-                'price': price
-            })
+        title_tag = item.find('h3', class_='catalog-item-title')
+        price_tag = item.find('div', class_='catalog-item-price')
+
+        if title_tag and price_tag:
+            title = title_tag.text.strip()
+            price = price_tag.text.strip()
+            
+            if "dracaufeu 223/197" in title.lower():
+                items.append({
+                    'title': title,
+                    'price': price
+                })
     
     logger.info(f"Fetched {len(items)} items from Vinted.")
     return items
