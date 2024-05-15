@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinted Items</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .item { margin-bottom: 20px; }
+        .title { font-size: 1.2em; font-weight: bold; }
+        .price { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Vinted Items</h1>
+    <div id="items"></div>
+    <script>
+        async function fetchItems() {
+            const response = await fetch('/items');
+            const items = await response.json();
+            const itemsContainer = document.getElementById('items');
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.innerHTML = `<div class="title">${item.title}</div><div class="price">${item.price}</div>`;
+                itemsContainer.appendChild(itemDiv);
+            });
+        }
+        fetchItems();
+    </script>
+</body>
+</html>
