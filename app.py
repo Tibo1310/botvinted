@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from models import VintedItem
@@ -10,6 +10,10 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/items', methods=['GET'])
 def get_items():
